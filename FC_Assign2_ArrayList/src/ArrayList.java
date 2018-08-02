@@ -1,3 +1,8 @@
+//Fiona Crook
+//300442873
+//Swen501 - Assignment 2: ArrayList
+
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -12,30 +17,28 @@ public class ArrayList<E> implements List<E> {
 	
 	public ArrayList() {
 		this.data=(E[])new Object[2];
-		//this.listSize=this.data.length;	//not true. No data equals no list size
 	}
 	
 	
 	/**Core*/
 	@Override
-	public boolean add(E input) {				//to add at end
-		if(this.listSize+1>this.data.length) {	//if adding in would put outside limits
-			increaseArray();					//increase
+	//Appends the specified element to the end of this list
+	public boolean add(E input) {				
+		if(this.listSize+1>this.data.length) {	
+			increaseArray();					
 		}
-		this.data[listSize]=input;			//insert at end of list
-		listSize++;								//increase size of list
-		return true;							//did the thing, return true
+		this.data[listSize]=input;			
+		this.listSize++;								
+		return true;						
 	}
 
-	private void increaseArray() {	//make new array of twice prev size
+	private void increaseArray() {	
 		int newSize=this.listSize*2;
 		E[] newData=(E[])new Object[newSize];
 		for(int i=0;i<this.data.length;i++) {
 			newData[i]=this.data[i];
 		}
-		this.data=newData;
-		//but listSize is still the same
-		
+		this.data=newData;		
 	}
 	
 	private void increaseArrayBy(int inc) {
@@ -45,23 +48,23 @@ public class ArrayList<E> implements List<E> {
 			newData[i]=this.data[i];
 		}
 		this.data=newData;
-		//but listSize is still the same
 	}
 	
 	/**Core*/
 	@Override
-	public void add(int i, E input) {		//Inserts the specified element at the specified position in this list
+	//Inserts the specified element at the specified position in this list
+	public void add(int i, E input) {		
 		if(i<0 || i>this.listSize) {
 			throw new IndexOutOfBoundsException();
 		} else {
-			if(this.listSize+1>this.data.length) {	//if adding in would put outside limits
-				increaseArray();					//increase
+			if(this.listSize+1>this.data.length) {	
+				increaseArray();					
 			}
 			for(int j=this.listSize-1;j>=i;j--) {
 				this.data[j+1]=this.data[j];
 			}
 			this.data[i]=input;
-			listSize++;
+			this.listSize++;
 		}
 		
 	}
@@ -69,17 +72,13 @@ public class ArrayList<E> implements List<E> {
 	/**Core*/
 	@Override
 	//Appends all of the elements in the specified collection to the end of this list
-	public boolean addAll(Collection<? extends E> append) { //turn into array - but how to get new size??		
+	public boolean addAll(Collection<? extends E> append) {		
 		E[] second=(E[]) append.toArray();  
 		int secondSize=0;
 		if((second.length+this.listSize)>this.data.length) {
-			//System.out.println("combo "+(second.length+this.listSize));
-			//System.out.println("into "+this.data.length);
 			increaseArrayBy(second.length);
-			//System.out.println("new length "+this.data.length);
-			//break;
 		}
-		for(int i=0;i<second.length;i++) {	//assuming empty elements at end, of type null
+		for(int i=0;i<second.length;i++) {	
 			if(second[i]!=null) {
 				this.data[this.listSize+i]=second[i];
 				secondSize++;
@@ -102,15 +101,15 @@ public class ArrayList<E> implements List<E> {
 			for(int i=0;i<insert.length;i++) {
 				add(in+i,insert[i]);
 			}
-		}
-		
+		}	
 		return true;
 	}
 
 	/**Core*/
 	@Override
-	public void clear() {		//Removes all of the elements from this list
-		for(int i=0;i<this.listSize;i++) {		//this loop maybe not needed??
+	//Removes all of the elements from this list
+	public void clear() {		
+		for(int i=0;i<this.listSize;i++) {	
 			this.data[i]=null;
 		}
 		this.listSize=0;	
@@ -118,7 +117,8 @@ public class ArrayList<E> implements List<E> {
 
 	/**Core*/
 	@Override
-	public boolean contains(Object obj) {		//Returns true if this list contains the specified element
+	//Returns true if this list contains the specified element
+	public boolean contains(Object obj) {		
 		for(int i=0;i<this.listSize;i++) {
 			if(this.data[i].equals(obj)) {
 				return true;
@@ -132,19 +132,8 @@ public class ArrayList<E> implements List<E> {
 	//Returns true if this list contains all of the elements of the specified collection
 	public boolean containsAll(Collection<?> col) {
 		boolean match=false;
-		//boolean contain=false;
-		E[] second=(E[]) col.toArray();
-		//E[] newData=(E[])new Object[this.listSize];
-//		for(int i=0;i<this.listSize;i++) {
-//			newData[i]=this.data[i];
-//		}
-//		if(second.length!=newData.length) {
-//			return false;
-//		}
-		
+		E[] second=(E[]) col.toArray();		
 		for(int i=0;i<second.length;i++) {
-			//contain=contains(second[i]);
-//			if(newData[i].equals(second[i])) {
 			if(contains(second[i])){
 				match=true;
 			} else {
@@ -157,14 +146,13 @@ public class ArrayList<E> implements List<E> {
 
 	/**Core*/
 	@Override
-	public E get(int i) {		//Returns the element at the specified position in this list.
+	//Returns the element at the specified position in this list
+	public E get(int i) {		
 		if(i<0 || i>this.listSize) {
 			throw new IndexOutOfBoundsException();
 		} else {
 			return this.data[i];
 		}
-		
-		//return null;
 	}
 
 	/**Completion*/
@@ -182,32 +170,55 @@ public class ArrayList<E> implements List<E> {
 
 	/**Core*/
 	@Override
-	public boolean isEmpty() {		//Returns true if this list contains no elements
+	//Returns true if this list contains no elements
+	public boolean isEmpty() {		
 		if(this.listSize==0) {
 			return true;
 		}
 		return false;
 	}
 
+	/**Challenge*/
 	@Override
 	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new IteratorInnerClass();
+		
 	}
+	
+	//inner class
+		public class IteratorInnerClass implements Iterator<E>{
+			
+			private int index=0;
+			
+			public boolean hasNext() { 		//to check if there is a next object
+				if(index<size()) {				//if the index value is less than the size of the train
+					return true;			//return true
+				} else {					//if the index value is outside
+					return false;			//return false
+				}
+			}
+			
+			public E next(){				//to return the next object
+				if(this.hasNext()) {		//first see if there is a next object				
+					@SuppressWarnings("unchecked")
+					E[] testArray=(E[]) new Object[size()];		//need to return an array object
+					E[] tArray2=toArray(testArray);
+					return tArray2[index++];	//if yes, return the next indexed item
+				} else {					//otherwise
+					return null;			//return nothing
+				}
+			}
+			
+			public void remove() {
+				
+			}
+		} //end inner class
 
 	/**Completion*/
 	@Override
 	//Returns the index of the last occurrence of the specified element in this list, 
 	//or -1 if this list does not contain the element
-	public int lastIndexOf(Object obj) {		//or could loop backwards, break when found
-//		int num=-1;		
-//		for(int i=0;i<this.listSize;i++) {
-//			if(this.data[i].equals(obj)) {
-//				num=i;
-//			}
-//		}
-//		return num;
-		
+	public int lastIndexOf(Object obj) {			
 		for(int i=this.listSize-1;i>=0;i--) {
 			if(this.data[i].equals(obj)){
 				return i;
@@ -216,12 +227,89 @@ public class ArrayList<E> implements List<E> {
 		return -1;
 	}
 
+	/**Challenge*/
 	@Override
 	public ListIterator<E> listIterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ListIteratorInnerClass();
+		
 	}
+	
+		public class ListIteratorInnerClass implements ListIterator<E>{
+	
+			private int index=0;
+			
+			@Override
+			public void add(E arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+	
+			@Override
+			public boolean hasNext() {
+				if(index<size()) {				
+					return true;			
+				} else {					
+					return false;			
+				}				
+			}
+	
+			@Override
+			public boolean hasPrevious() {
+				if(index>0) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+	
+			@Override
+			public E next() {
+				if(this.hasNext()) {					
+					@SuppressWarnings("unchecked")
+					E[] testArray=(E[]) new Object[size()];	
+					E[] tArray2=toArray(testArray);
+					return tArray2[index++];	
+				} else {					
+					return null;			
+				}
+			}
+	
+			@Override
+			public int nextIndex() {			
+				return index+1;
+			}
+	
+			@Override
+			public E previous() {
+				if(this.hasPrevious()) {
+					E[] testArray=(E[]) new Object[size()];	
+					E[] tArray2=toArray(testArray);
+					return tArray2[index--];	//<<returning out of bounds exception
+				}
+				return null;
+			}
+	
+			@Override
+			public int previousIndex() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+	
+			@Override
+			public void remove() {
+				// TODO Auto-generated method stub
+				
+			}
+	
+			@Override
+			public void set(E arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		}
 
+	/**Challenge*/
 	@Override
 	public ListIterator<E> listIterator(int arg0) {
 		// TODO Auto-generated method stub
@@ -230,10 +318,10 @@ public class ArrayList<E> implements List<E> {
 
 	/**Core*/
 	@Override
-	public boolean remove(Object obj) {	//Removes the first occurrence of the specified element from this list
+	//Removes the first occurrence of the specified element from this list
+	public boolean remove(Object obj) {	
 		for(int i=0;i<this.listSize;i++) {
 			if(this.data[i].equals(obj)) {
-				//System.out.println("at index "+i);
 				remove(i);
 				return true;
 			}
@@ -243,17 +331,16 @@ public class ArrayList<E> implements List<E> {
 
 	/**Core*/
 	@Override
-	public E remove(int i) {		//Removes the element at the specified position in this list
+	//Removes the element at the specified position in this list
+	public E remove(int i) {		
 		if(i<0 || i>this.listSize) {
 			throw new IndexOutOfBoundsException();
 		} else {			
-			E temp=this.data[i];	//make copy of obj being removed						
+			E temp=this.data[i];							
 			for(int j=i;j<this.listSize-1;j++) {
-				//System.out.println("index j "+this.data[j]);
-				//System.out.println("index j+1 "+this.data[j+1]);
 				this.data[j]=this.data[j+1];
 			}			
-			listSize--;
+			this.listSize--;
 			return temp;
 		}
 	}
@@ -267,12 +354,9 @@ public class ArrayList<E> implements List<E> {
 		E[] second=(E[]) col.toArray();
 		for(int i=0;i<second.length;i++) {		
 			if(contains(second[i])){
-				//System.out.println("removing "+(second[i]));
 				remove(second[i]);		
 				matches++;
 			} 
-			
-			//remove(second[i]);
 		}
 		if(matches==second.length) {
 			return true;
@@ -281,15 +365,23 @@ public class ArrayList<E> implements List<E> {
 		
 	}
 
+	/**Challenge*/
 	@Override
-	public boolean retainAll(Collection<?> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+	//Retains only the elements in this list that are contained in the specified collection
+	public boolean retainAll(Collection<?> col) {
+		E[] second=(E[]) col.toArray();
+		for(int i=this.listSize-1;i>=0;i--) {
+			if(!col.contains(this.data[i])) {
+				remove(i);
+			}
+		}
+		return true;
 	}
 
 	/**Core*/
 	@Override
-	public E set(int i, E e) {		//Replaces the element at the specified position in this list with the specified element		
+	//Replaces the element at the specified position in this list with the specified element
+	public E set(int i, E e) {				
 		if(i<0 || i>this.listSize) {
 			throw new IndexOutOfBoundsException();
 		} else {
@@ -301,6 +393,7 @@ public class ArrayList<E> implements List<E> {
 
 	/**Core*/
 	@Override
+	//Returns the number of elements in this list
 	public int size() {
 		if(this.listSize>Integer.MAX_VALUE) {
 			return Integer.MAX_VALUE;
@@ -308,26 +401,44 @@ public class ArrayList<E> implements List<E> {
 		return this.listSize;
 	}
 
+	/**Challenge*/
 	@Override
-	public List<E> subList(int arg0, int arg1) {
-		// TODO Auto-generated method stub
-		return null;
+	//Returns a view of the portion of this list between the specified fromIndex, inclusive, 
+	//and toIndex, exclusive
+	public List<E> subList(int fromI, int toI) {
+		if(fromI<0 || toI>this.listSize || toI<fromI) {
+			throw new IndexOutOfBoundsException();
+		} else {
+			List<E> tempList=new ArrayList<E>();
+			for(int i=fromI;i<toI;i++) {
+				tempList.add(this.data[i]);
+			}	
+			return tempList;
+		}
 	}
 
 	/**Completion*/
 	@Override
+	//Returns an array containing all of the elements in this list
 	public Object[] toArray() {
 		Object [] tList=new Object[size()];
 		for(int i=0;i<size();i++) {
-			tList[i]=get(i); //array holds data items
+			tList[i]=get(i); 
 		}
 		return tList;
 		
 	}
 
-	//@Override
-	public <T> T[] toArray(T[] arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	/**Challenge*/
+	@Override
+	//Returns an array containing all of the elements in this list
+	public <E> E[] toArray(E[] input) {
+		@SuppressWarnings("unchecked")	
+		E[] tList=(E[]) new Object[size()]; 
+		for(int i=0;i<size();i++) {
+			tList[i]=(E) get(i);
+		}		
+		return tList;
+		
 	}
 }
